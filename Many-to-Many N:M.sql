@@ -98,12 +98,16 @@ order by o.order_no
 --8. Write a query to calculate each phone (or address) and the sum of all orders
 SELECT
 	o.address as address,
-	coalesce(sum(s.qty), 0) as amount_sold
+	coalesce(sum(s.qty), 0) as amount_sold,
+	coalesce(sum(s.qty * p.unit_price), 0) as total_spent
 FROM sales s
 FULL OUTER JOIN orders o on s.order_id = o.id
+FULL OUTER JOIN products p on s.product_id = p.id
+
 GROUP BY address
 ORDER by amount_sold DESC
 ;
+	
 	
 --9. Write a query to show orders that have no products in sales
 SELECT
